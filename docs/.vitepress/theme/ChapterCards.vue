@@ -23,7 +23,7 @@ const sections = [
   {
     n: '1.4',
     title: '主元及其影响',
-    en: 'Pivots and solution spaces',
+    en: 'Pivots and their influence on solution spaces',
     link: '/chapter-1/1-4'
   }
 ]
