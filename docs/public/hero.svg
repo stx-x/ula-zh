@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 460" width="520" height="460" fill="none">
+  <defs>
+    <linearGradient id="planeA" x1="80" y1="180" x2="440" y2="380" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366f1" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0.10"/>
+    </linearGradient>
+    <linearGradient id="planeB" x1="180" y1="120" x2="380" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0d9488" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="vec" x1="150" y1="330" x2="380" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4f46e5"/>
+      <stop offset="0.6" stop-color="#7c6cf7"/>
+      <stop offset="1" stop-color="#0d9488"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f59e0b" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+  </defs>
+
+  <!-- ambient blobs -->
+  <circle cx="120" cy="90" r="90" fill="#6366f1" opacity="0.16" filter="url(#blur)"/>
+  <circle cx="420" cy="330" r="100" fill="#2dd4bf" opacity="0.14" filter="url(#blur)"/>
+
+  <!-- dotted grid -->
+  <g fill="#6366f1" opacity="0.24">
+    <circle cx="70" cy="80" r="1.7"/><circle cx="130" cy="80" r="1.7"/><circle cx="190" cy="80" r="1.7"/><circle cx="250" cy="80" r="1.7"/><circle cx="310" cy="80" r="1.7"/><circle cx="370" cy="80" r="1.7"/><circle cx="430" cy="80" r="1.7"/>
+    <circle cx="70" cy="140" r="1.7"/><circle cx="130" cy="140" r="1.7"/><circle cx="190" cy="140" r="1.7"/><circle cx="250" cy="140" r="1.7"/><circle cx="310" cy="140" r="1.7"/><circle cx="370" cy="140" r="1.7"/><circle cx="430" cy="140" r="1.7"/>
+    <circle cx="70" cy="200" r="1.7"/><circle cx="130" cy="200" r="1.7"/><circle cx="190" cy="200" r="1.7"/><circle cx="250" cy="200" r="1.7"/><circle cx="310" cy="200" r="1.7"/><circle cx="370" cy="200" r="1.7"/><circle cx="430" cy="200" r="1.7"/>
+    <circle cx="70" cy="260" r="1.7"/><circle cx="130" cy="260" r="1.7"/><circle cx="190" cy="260" r="1.7"/><circle cx="250" cy="260" r="1.7"/><circle cx="310" cy="260" r="1.7"/><circle cx="370" cy="260" r="1.7"/><circle cx="430" cy="260" r="1.7"/>
+    <circle cx="70" cy="320" r="1.7"/><circle cx="130" cy="320" r="1.7"/><circle cx="190" cy="320" r="1.7"/><circle cx="250" cy="320" r="1.7"/><circle cx="310" cy="320" r="1.7"/><circle cx="370" cy="320" r="1.7"/><circle cx="430" cy="320" r="1.7"/>
+    <circle cx="70" cy="380" r="1.7"/><circle cx="130" cy="380" r="1.7"/><circle cx="190" cy="380" r="1.7"/><circle cx="250" cy="380" r="1.7"/><circle cx="310" cy="380" r="1.7"/><circle cx="370" cy="380" r="1.7"/><circle cx="430" cy="380" r="1.7"/>
+  </g>
+
+  <!-- plane A -->
+  <path d="M78 300 L262 196 L446 262 L262 366 Z" fill="url(#planeA)" stroke="#6366f1" stroke-opacity="0.72" stroke-width="1.6" stroke-linejoin="round"/>
+  <!-- plane B -->
+  <path d="M176 108 L342 160 L342 392 L176 340 Z" fill="url(#planeB)" stroke="#0d9488" stroke-opacity="0.66" stroke-width="1.6" stroke-linejoin="round"/>
+
+  <!-- axes -->
+  <g stroke="#94a3b8" stroke-opacity="0.72" stroke-width="1.4" stroke-linecap="round">
+    <path d="M70 400 H456" stroke-dasharray="4 7"/>
+    <path d="M70 400 V72" stroke-dasharray="4 7"/>
+  </g>
+  <path d="M456 400 l-10 -4.5 v9 z" fill="#94a3b8" fill-opacity="0.6"/>
+  <path d="M70 72 l-4.5 10 h9 z" fill="#94a3b8" fill-opacity="0.6"/>
+
+  <!-- basis vectors -->
+  <g stroke-linecap="round">
+    <path d="M150 352 L300 262" stroke="#4f46e5" stroke-width="2.2" opacity="0.55"/>
+    <path d="M300 262 l-13 -1.5 6.5 9.5 z" fill="#4f46e5" fill-opacity="0.55"/>
+    <path d="M150 352 L196 214" stroke="#0d9488" stroke-width="2.2" opacity="0.55"/>
+    <path d="M196 214 l-1 13 9-7 z" fill="#0d9488" fill-opacity="0.55"/>
+  </g>
+
+  <!-- main vector -->
+  <path d="M150 352 L386 156" stroke="url(#vec)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M386 156 l-18 2.5 8.5 13.5 z" fill="#0d9488"/>
+  <circle cx="386" cy="156" r="26" fill="url(#glow)"/>
+  <circle cx="386" cy="156" r="5" fill="#f59e0b"/>
+
+  <!-- highlighted point on plane -->
+  <circle cx="262" cy="262" r="4.5" fill="#4f46e5"/>
+  <circle cx="262" cy="262" r="12" stroke="#4f46e5" stroke-opacity="0.35" stroke-width="1.5"/>
+
+  <!-- tiny determinant parallelogram -->
+  <path d="M150 352 L254 292 L300 262 L196 322 Z" fill="#6366f1" fill-opacity="0.08" stroke="#6366f1" stroke-opacity="0.25" stroke-dasharray="4 4"/>
+</svg>
