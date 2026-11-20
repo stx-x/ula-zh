@@ -1,16 +1,16 @@
 /**
  * Progressive enhancement for exercises.
  *
- * The translated pages contain static exercise blocks:
- *   - multiple-choice options (A. B. C. ...) plus a nested "查看答案" details
- *   - matching exercises plus a "查看参考配对" details
- *
- * This module turns them into interactive widgets in the browser without
- * touching the Markdown sources.
+ * Two layouts are supported:
+ *   A) a "查看解答" details containing options and a nested "查看答案"
+ *   B) options (A. B. C. ...) followed by a standalone "查看答案" details
+ * Matching exercises ("查看参考配对") get a select-based pairing widget.
  */
 
 const CHOICE_ANSWER = /正确答案[：:]\s*([A-Z](?:\s*[、,，]\s*[A-Z])*)/
 const PAIR_ANSWER = /(\d+)\s*[–—\-]\s*([A-Z])/g
+
+type Group = { letter: string; nodes: HTMLElement[] }
 
 function textOf(el: Element | null): string {
   return (el?.textContent || '').replace(/\s+/g, ' ').trim()
@@ -22,29 +22,23 @@ function make(tag: string, className?: string): HTMLElement {
   return el
 }
 
-/* ------------------------------------------------------------ choices */
+function groupOptions(nodes: HTMLElement[]): Group[] {
+  const groups: Group[] = []
+  let current: Group | null = null
+  for (const el of nodes) {
+    const m = el.tagName === 'P' ? textOf(el).match(/^([A-Z])\./) : null
+    if (m) {
+      current = { letter: m[1], nodes: [el] }
+      groups.push(current)
+    } else if (current) {
+      current.nodes.push(el)
+    }
+  }
+  return groups
+}
 
-function enhanceChoice(details: HTMLDetailsElement): boolean {
-  if (details.dataset.quizDone) return false
-  const nested = Array.from(details.children).find(
-    (el) => el.tagName === 'DETAILS'
-  ) as HTMLDetailsElement | undefined
-  if (!nested) return false
-
-  const match = textOf(nested).match(CHOICE_ANSWER)
-  if (!match) return false
-  const correct = new Set(match[1].match(/[A-Z]/g) || [])
-  if (!correct.size) return false
-
-  const options = Array.from(details.children).filter((el) => {
-    if (el.tagName !== 'P') return false
-    return /^[A-Z]\./.test(textOf(el))
-  }) as HTMLElement[]
-  if (options.length < 2) return false
-
-  details.dataset.quizDone = '1'
+function buildChoiceQuiz(groups: Group[], correct: Set<string>): HTMLElement {
   const multi = correct.size > 1
-
   const wrap = make('div', 'ula-quiz')
   const prompt = make('p', 'ula-quiz-prompt')
   prompt.textContent = multi ? '选择所有正确选项，然后提交。' : '选择一个答案。'
@@ -53,35 +47,7 @@ function enhanceChoice(details: HTMLDetailsElement): boolean {
   const list = make('div', 'ula-quiz-options')
   const buttons: HTMLButtonElement[] = []
   const chosen = new Set<string>()
-
-  for (const p of options) {
-    const letter = textOf(p).charAt(0)
-    const btn = document.createElement('button')
-    btn.type = 'button'
-    btn.className = 'ula-opt'
-    btn.dataset.letter = letter
-    btn.innerHTML = p.innerHTML
-    btn.addEventListener('click', () => {
-      if (btn.disabled) return
-      if (!multi) {
-        chosen.clear()
-        chosen.add(letter)
-        evaluate()
-        return
-      }
-      if (chosen.has(letter)) {
-        chosen.delete(letter)
-        btn.classList.remove('is-selected')
-      } else {
-        chosen.add(letter)
-        btn.classList.add('is-selected')
-      }
-      submitBtn.disabled = chosen.size === 0
-    })
-    buttons.push(btn)
-    list.appendChild(btn)
-  }
-  wrap.appendChild(list)
+  let solved = false
 
   const actions = make('div', 'ula-quiz-actions')
   const submitBtn = document.createElement('button')
@@ -90,25 +56,15 @@ function enhanceChoice(details: HTMLDetailsElement): boolean {
   submitBtn.textContent = '提交'
   submitBtn.disabled = true
   submitBtn.hidden = !multi
+
   const resetBtn = document.createElement('button')
   resetBtn.type = 'button'
   resetBtn.className = 'ula-quiz-btn'
   resetBtn.textContent = '重做'
   resetBtn.hidden = true
-  const revealBtn = document.createElement('button')
-  revealBtn.type = 'button'
-  revealBtn.className = 'ula-quiz-btn ghost'
-  revealBtn.textContent = '显示答案'
-  revealBtn.hidden = true
-
-  actions.append(submitBtn, resetBtn, revealBtn)
-  wrap.appendChild(actions)
 
   const feedback = make('div', 'ula-quiz-feedback')
   feedback.setAttribute('aria-live', 'polite')
-  wrap.appendChild(feedback)
-
-  let solved = false
 
   function markResult() {
     for (const b of buttons) {
@@ -127,7 +83,6 @@ function enhanceChoice(details: HTMLDetailsElement): boolean {
     markResult()
     solved = true
     resetBtn.hidden = false
-    revealBtn.hidden = true
     submitBtn.hidden = true
     feedback.className = `ula-quiz-feedback ${ok ? 'ok' : 'no'}`
     feedback.textContent = ok
@@ -135,8 +90,35 @@ function enhanceChoice(details: HTMLDetailsElement): boolean {
       : `再想想。正确答案是 ${Array.from(correct).join('、')}。`
   }
 
-  submitBtn.addEventListener('click', evaluate)
+  for (const g of groups) {
+    const btn = document.createElement('button')
+    btn.type = 'button'
+    btn.className = 'ula-opt'
+    btn.dataset.letter = g.letter
+    btn.innerHTML = g.nodes.map((n) => n.outerHTML).join('')
+    btn.addEventListener('click', () => {
+      if (btn.disabled) return
+      if (!multi) {
+        chosen.clear()
+        chosen.add(g.letter)
+        evaluate()
+        return
+      }
+      if (chosen.has(g.letter)) {
+        chosen.delete(g.letter)
+        btn.classList.remove('is-selected')
+      } else {
+        chosen.add(g.letter)
+        btn.classList.add('is-selected')
+      }
+      submitBtn.disabled = chosen.size === 0
+    })
+    buttons.push(btn)
+    list.appendChild(btn)
+  }
+  wrap.appendChild(list)
 
+  submitBtn.addEventListener('click', evaluate)
   resetBtn.addEventListener('click', () => {
     solved = false
     chosen.clear()
@@ -151,13 +133,68 @@ function enhanceChoice(details: HTMLDetailsElement): boolean {
     }
   })
 
-  revealBtn.addEventListener('click', () => {
-    feedback.className = 'ula-quiz-feedback'
-    feedback.textContent = `正确答案：${Array.from(correct).join('、')}`
-  })
+  actions.append(submitBtn, resetBtn)
+  wrap.appendChild(actions)
+  wrap.appendChild(feedback)
+  return wrap
+}
 
-  details.replaceWith(wrap)
+/* ------------------------------------------------------------ choices */
+
+function enhanceDetailsChoice(details: HTMLDetailsElement): boolean {
+  if (details.dataset.quizDone) return false
+  const nested = Array.from(details.children).find(
+    (el) => el.tagName === 'DETAILS'
+  ) as HTMLDetailsElement | undefined
+  if (!nested) return false
+
+  const match = textOf(nested).match(CHOICE_ANSWER)
+  if (!match) return false
+  const correct = new Set(match[1].match(/[A-Z]/g) || [])
+  if (!correct.size) return false
+
+  const nodes = Array.from(details.children).filter(
+    (el) => el.tagName !== 'DETAILS'
+  ) as HTMLElement[]
+  const groups = groupOptions(nodes)
+  if (groups.length < 2) return false
+
+  details.dataset.quizDone = '1'
+  details.replaceWith(buildChoiceQuiz(groups, correct))
   details.closest('.ula-exercise')?.classList.add('is-interactive')
+  return true
+}
+
+function enhanceStandaloneChoice(root: HTMLElement): boolean {
+  if (root.dataset.standaloneDone) return false
+  const kids = Array.from(root.children) as HTMLElement[]
+  const det = kids.find(
+    (el) =>
+      el.tagName === 'DETAILS' &&
+      textOf(el.querySelector('summary')).includes('查看答案')
+  ) as HTMLDetailsElement | undefined
+  if (!det) return false
+
+  const match = textOf(det).match(CHOICE_ANSWER)
+  if (!match) return false
+  const correct = new Set(match[1].match(/[A-Z]/g) || [])
+  if (!correct.size) return false
+
+  const detIdx = kids.indexOf(det)
+  const start = kids.findIndex(
+    (el, i) => i < detIdx && el.tagName === 'P' && /^A\./.test(textOf(el))
+  )
+  if (start < 0) return false
+  const optionNodes = kids.slice(start, detIdx)
+  const groups = groupOptions(optionNodes)
+  if (groups.length < 2) return false
+
+  root.dataset.standaloneDone = '1'
+  const wrap = buildChoiceQuiz(groups, correct)
+  root.insertBefore(wrap, optionNodes[0])
+  for (const el of optionNodes) el.remove()
+  det.remove()
+  root.classList.add('is-interactive')
   return true
 }
 
@@ -193,9 +230,7 @@ function enhanceMatching(root: HTMLElement): boolean {
   })
   if (leftMarks.length < 2) return false
 
-  const letters = Array.from(
-    new Set(nums.map((n) => pairs[n]))
-  ).sort()
+  const letters = Array.from(new Set(nums.map((n) => pairs[n]))).sort()
   const selects = new Map<string, HTMLSelectElement>()
 
   for (const strong of leftMarks) {
@@ -248,8 +283,7 @@ function enhanceMatching(root: HTMLElement): boolean {
     if (solved) return
     let ok = true
     for (const [num, sel] of selects) {
-      const right = pairs[num]
-      const good = sel.value === right
+      const good = sel.value === pairs[num]
       sel.classList.toggle('is-correct', good)
       sel.classList.toggle('is-wrong', !good)
       sel.disabled = true
@@ -259,9 +293,7 @@ function enhanceMatching(root: HTMLElement): boolean {
     submit.hidden = true
     reset.hidden = false
     feedback.className = `ula-quiz-feedback ${ok ? 'ok' : 'no'}`
-    feedback.textContent = ok
-      ? '配对正确。'
-      : '有配对不正确，绿色为正确项。'
+    feedback.textContent = ok ? '配对正确。' : '有配对不正确，绿色为正确项。'
   })
 
   reset.addEventListener('click', () => {
@@ -295,13 +327,14 @@ function enhanceAll() {
     doc.querySelectorAll<HTMLDetailsElement>('.ula-exercise details')
   )) {
     if (det.querySelector('summary')?.textContent?.includes('查看解答')) {
-      enhanceChoice(det)
+      enhanceDetailsChoice(det)
     }
   }
 
   for (const ex of Array.from(
     doc.querySelectorAll<HTMLElement>('.ula-exercise')
   )) {
+    enhanceStandaloneChoice(ex)
     enhanceMatching(ex)
   }
 }
