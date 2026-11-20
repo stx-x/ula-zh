@@ -37,7 +37,10 @@ export default defineConfig({
   base: '/ula-zh/',
   cleanUrls: true,
   appearance: 'light',
-  lastUpdated: true,
+  lastUpdated: {
+    text: '最后更新',
+    formatOptions: { dateStyle: 'medium' }
+  },
   head: [
     [
       'script',
