@@ -42,7 +42,7 @@ title: 关于本书与版权
 
 ## 技术说明
 
-本站使用 [VitePress](https://vitepress.dev/) 构建，数学公式由 [KaTeX](https://katex.org/) 渲染。转换流程是：读取原书 PreTeXt XML → 解析编号与交叉引用 → 输出 Markdown（保留 LaTeX）→ 人工翻译与校对。图表使用原书 PreFigure 生成的 SVG 矢量图，缩放不失真。
+本站使用 [VitePress](https://vitepress.dev/) 构建，数学公式由 [KaTeX](https://katex.org/) 渲染。选择题支持即时判分，配对题支持下拉配对与提交检查。转换流程是：读取原书 PreTeXt XML → 解析编号与交叉引用 → 输出 Markdown（保留 LaTeX）→ 人工翻译与校对。图表使用原书 PreFigure 生成的 SVG 矢量图，缩放不失真。
 
 ## 勘误与反馈
 

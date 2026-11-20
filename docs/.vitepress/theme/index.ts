@@ -5,8 +5,12 @@ import '@fontsource-variable/inter'
 import '@fontsource-variable/manrope'
 import 'katex/dist/katex.min.css'
 import './style.css'
+import { setupInteractive } from './interactive'
 
 export default {
   extends: DefaultTheme,
-  Layout
+  Layout,
+  enhanceApp() {
+    setupInteractive()
+  }
 } satisfies Theme
