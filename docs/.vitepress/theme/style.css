@@ -597,3 +597,9 @@ body {
 .vp-doc h3 {
   scroll-margin-top: 96px;
 }
+
+
+/* 隐藏空的 Sage 代码块（仅保留语言标签的占位块） */
+.vp-doc div[class*='language-']:has(pre code:empty) {
+  display: none;
+}

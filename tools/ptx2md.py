@@ -48,6 +48,24 @@ CHAPTERS = {
         ("section4-4.xml", "4-4", "4.4"),
         ("section4-5.xml", "4-5", "4.5"),
     ]),
+    "5": ("chapter-5", "Linear algebra and computing", [
+        ("section5-1.xml", "5-1", "5.1"),
+        ("section5-2.xml", "5-2", "5.2"),
+    ]),
+    "6": ("chapter-6", "Orthogonality and Least Squares", [
+        ("section6-1.xml", "6-1", "6.1"),
+        ("section6-2.xml", "6-2", "6.2"),
+        ("section6-3.xml", "6-3", "6.3"),
+        ("section6-4.xml", "6-4", "6.4"),
+        ("section6-5.xml", "6-5", "6.5"),
+    ]),
+    "7": ("chapter-7", "Singular value decompositions", [
+        ("section7-1.xml", "7-1", "7.1"),
+        ("section7-2.xml", "7-2", "7.2"),
+        ("section7-3.xml", "7-3", "7.3"),
+        ("section7-4.xml", "7-4", "7.4"),
+        ("section7-5.xml", "7-5", "7.5"),
+    ]),
 }
 
 NUMBERED = {

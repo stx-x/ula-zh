@@ -59,6 +59,9 @@ export default defineConfig({
       }
     ]
   ],
+  transformHtml(code) {
+    return code.replace(/<p>\s*:{3,}\s*<\/p>/g, '')
+  },
   markdown: {
     image: { lazyLoading: true },
     math: false,
@@ -89,6 +92,9 @@ export default defineConfig({
       { text: '第二章', link: '/chapter-2/', activeMatch: '/chapter-2/' },
       { text: '第三章', link: '/chapter-3/', activeMatch: '/chapter-3/' },
       { text: '第四章', link: '/chapter-4/', activeMatch: '/chapter-4/' },
+      { text: '第五章', link: '/chapter-5/', activeMatch: '/chapter-5/' },
+      { text: '第六章', link: '/chapter-6/', activeMatch: '/chapter-6/' },
+      { text: '第七章', link: '/chapter-7/', activeMatch: '/chapter-7/' },
       { text: '关于', link: '/about' }
     ],
     sidebar: {
@@ -138,6 +144,39 @@ export default defineConfig({
             { text: '4.3 对角化、相似与矩阵的幂', link: '/chapter-4/4-3' },
             { text: '4.4 动力系统', link: '/chapter-4/4-4' },
             { text: '4.5 马尔可夫链与 PageRank 算法', link: '/chapter-4/4-5' }
+          ]
+        }
+      ],
+      '/chapter-5/': [
+        {
+          text: '第五章 · 线性代数与计算',
+          items: [
+            { text: '5.1 再谈高斯消元', link: '/chapter-5/5-1' },
+            { text: '5.2 数值求特征向量', link: '/chapter-5/5-2' }
+          ]
+        }
+      ],
+      '/chapter-6/': [
+        {
+          text: '第六章 · 正交性与最小二乘',
+          items: [
+            { text: '6.1 点积', link: '/chapter-6/6-1' },
+            { text: '6.2 正交补与矩阵转置', link: '/chapter-6/6-2' },
+            { text: '6.3 正交基与投影', link: '/chapter-6/6-3' },
+            { text: '6.4 求正交基', link: '/chapter-6/6-4' },
+            { text: '6.5 正交最小二乘', link: '/chapter-6/6-5' }
+          ]
+        }
+      ],
+      '/chapter-7/': [
+        {
+          text: '第七章 · 奇异值分解',
+          items: [
+            { text: '7.1 对称矩阵与方差', link: '/chapter-7/7-1' },
+            { text: '7.2 二次型', link: '/chapter-7/7-2' },
+            { text: '7.3 主成分分析', link: '/chapter-7/7-3' },
+            { text: '7.4 奇异值分解', link: '/chapter-7/7-4' },
+            { text: '7.5 奇异值分解的应用', link: '/chapter-7/7-5' }
           ]
         }
       ]

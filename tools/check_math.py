@@ -15,7 +15,7 @@ DOCS = ROOT / "docs"
 MATH = re.compile(r"\$\$(.+?)\$\$|(?<!\$)\$(?!\$)([^$\n]+?)\$(?!\$)", re.S)
 IMG = re.compile(r"!\[[^\]]*\]\(([^)]+)\)")
 ANCHOR = re.compile(r'<a id="([^"]+)"')
-CONTAINER = re.compile(r"^:{3,}[ \t]+(activity|definition|theorem|proposition|example|observation|principle|exercise|note|proof|details|ula-figure)\b", re.M)
+CONTAINER = re.compile(r"^:{3,}[ \t]+(activity|definition|theorem|proposition|example|observation|principle|exercise|note|proof|details)\b", re.M)
 
 
 def norm(s: str) -> str:

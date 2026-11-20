@@ -29,6 +29,27 @@ const chapters = [
     en: 'Eigenvalues and eigenvectors',
     count: '5 节',
     link: '/chapter-4/'
+  },
+  {
+    n: '05',
+    title: '线性代数与计算',
+    en: 'Linear algebra and computing',
+    count: '2 节',
+    link: '/chapter-5/'
+  },
+  {
+    n: '06',
+    title: '正交性与最小二乘',
+    en: 'Orthogonality and Least Squares',
+    count: '5 节',
+    link: '/chapter-6/'
+  },
+  {
+    n: '07',
+    title: '奇异值分解',
+    en: 'Singular value decompositions',
+    count: '5 节',
+    link: '/chapter-7/'
   }
 ]
 </script>
@@ -38,9 +59,9 @@ const chapters = [
     <div class="ula-chapters__inner">
       <header class="ula-chapters__head">
         <p class="ula-eyebrow">全书目录</p>
-        <h2>四章</h2>
+        <h2>七章</h2>
         <p class="ula-lede">
-          原书第 1–4 章，共 20 节。
+          原书第 1–7 章，共 32 节。
         </p>
       </header>
 
