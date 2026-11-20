@@ -1,6 +1,6 @@
 # 理解线性代数 · 中文精译
 
-David Austin《Understanding Linear Algebra》第一章的中文翻译，使用 VitePress 构建。
+David Austin《Understanding Linear Algebra》第 1–4 章的中文翻译，使用 VitePress 构建。
 
 - 原书：<https://understandinglinearalgebra.org/home.html>
 - 源码：<https://github.com/davidaustinm/ula>

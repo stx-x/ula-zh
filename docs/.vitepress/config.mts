@@ -2,10 +2,11 @@ import { defineConfig } from 'vitepress'
 import { katex } from '@mdit/plugin-katex'
 import container from 'markdown-it-container'
 import type MarkdownIt from 'markdown-it'
+import macros from './theme/katex-macros.json'
 
 const BLOCKS = [
   'activity', 'definition', 'theorem', 'proposition', 'example',
-  'observation', 'principle', 'exercise', 'note',
+  'observation', 'principle', 'exercise', 'note', 'proof',
   'ula-figure', 'ula-sbs', 'ula-alpha', 'ula-dl'
 ]
 
@@ -64,6 +65,7 @@ export default defineConfig({
         strict: false,
         trust: true,
         macros: {
+          ...macros,
           '\\R': '\\mathbb{R}',
           '\\C': '\\mathbb{C}',
           '\\N': '\\mathbb{N}',
@@ -80,8 +82,11 @@ export default defineConfig({
     outline: { level: [2, 3], label: '本页目录' },
     nav: [
       { text: '首页', link: '/' },
-      { text: '第一章 · 方程组', link: '/chapter-1/', activeMatch: '/chapter-1/' },
-      { text: '关于本书', link: '/about' }
+      { text: '第一章', link: '/chapter-1/', activeMatch: '/chapter-1/' },
+      { text: '第二章', link: '/chapter-2/', activeMatch: '/chapter-2/' },
+      { text: '第三章', link: '/chapter-3/', activeMatch: '/chapter-3/' },
+      { text: '第四章', link: '/chapter-4/', activeMatch: '/chapter-4/' },
+      { text: '关于', link: '/about' }
     ],
     sidebar: {
       '/chapter-1/': [
@@ -94,9 +99,43 @@ export default defineConfig({
             { text: '1.4 主元及其对解空间的影响', link: '/chapter-1/1-4' }
           ]
         },
+        { text: '附录', items: [{ text: '关于本书与版权', link: '/about' }] }
+      ],
+      '/chapter-2/': [
         {
-          text: '附录',
-          items: [{ text: '关于本书与版权', link: '/about' }]
+          text: '第二章 · 向量、矩阵与线性组合',
+          items: [
+            { text: '2.1 向量与线性组合', link: '/chapter-2/2-1' },
+            { text: '2.2 矩阵乘法与线性组合', link: '/chapter-2/2-2' },
+            { text: '2.3 向量组的张成', link: '/chapter-2/2-3' },
+            { text: '2.4 线性无关', link: '/chapter-2/2-4' },
+            { text: '2.5 矩阵变换', link: '/chapter-2/2-5' },
+            { text: '2.6 矩阵变换的几何', link: '/chapter-2/2-6' }
+          ]
+        }
+      ],
+      '/chapter-3/': [
+        {
+          text: '第三章 · 可逆性、基与坐标系',
+          items: [
+            { text: '3.1 可逆性', link: '/chapter-3/3-1' },
+            { text: '3.2 基与坐标系', link: '/chapter-3/3-2' },
+            { text: '3.3 图像压缩', link: '/chapter-3/3-3' },
+            { text: '3.4 行列式', link: '/chapter-3/3-4' },
+            { text: '3.5 子空间', link: '/chapter-3/3-5' }
+          ]
+        }
+      ],
+      '/chapter-4/': [
+        {
+          text: '第四章 · 特征值与特征向量',
+          items: [
+            { text: '4.1 特征值与特征向量初步', link: '/chapter-4/4-1' },
+            { text: '4.2 求特征值与特征向量', link: '/chapter-4/4-2' },
+            { text: '4.3 对角化、相似与矩阵的幂', link: '/chapter-4/4-3' },
+            { text: '4.4 动力系统', link: '/chapter-4/4-4' },
+            { text: '4.5 马尔可夫链与 PageRank 算法', link: '/chapter-4/4-5' }
+          ]
         }
       ]
     },

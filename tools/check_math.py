@@ -10,12 +10,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "tools" / "baseline"
-DOCS = ROOT / "docs" / "chapter-1"
+DOCS = ROOT / "docs"
 
 MATH = re.compile(r"\$\$(.+?)\$\$|(?<!\$)\$(?!\$)([^$\n]+?)\$(?!\$)", re.S)
 IMG = re.compile(r"!\[[^\]]*\]\(([^)]+)\)")
 ANCHOR = re.compile(r'<a id="([^"]+)"')
-CONTAINER = re.compile(r"^:{3,}[ \t]+(\w[\w-]*)", re.M)
+CONTAINER = re.compile(r"^:{3,}[ \t]+(activity|definition|theorem|proposition|example|observation|principle|exercise|note|proof|details|ula-figure)\b", re.M)
 
 
 def norm(s: str) -> str:
@@ -32,7 +32,7 @@ def main(slugs: list[str]) -> int:
     bad = 0
     for slug in slugs:
         en = (BASE / f"{slug}.md").read_text()
-        zh = (DOCS / f"{slug}.md").read_text()
+        zh = (DOCS / f"chapter-{slug[0]}" / f"{slug}.md").read_text()
         en_m, zh_m = extract(en), extract(zh)
         problems = []
         if set(en_m) != set(zh_m):
