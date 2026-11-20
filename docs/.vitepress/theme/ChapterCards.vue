@@ -1,30 +1,34 @@
 <script setup lang="ts">
 import { withBase } from 'vitepress'
 
-const sections = [
+const chapters = [
   {
-    n: '1.1',
-    title: '我们能期待什么',
-    en: 'What can we expect',
-    link: '/chapter-1/1-1'
+    n: '01',
+    title: '方程组',
+    en: 'Systems of equations',
+    count: '4 节',
+    link: '/chapter-1/'
   },
   {
-    n: '1.2',
-    title: '求解线性方程组',
-    en: 'Finding solutions',
-    link: '/chapter-1/1-2'
+    n: '02',
+    title: '向量、矩阵与线性组合',
+    en: 'Vectors, matrices, and linear combinations',
+    count: '6 节',
+    link: '/chapter-2/'
   },
   {
-    n: '1.3',
-    title: '用 Sage 计算',
-    en: 'Computation with Sage',
-    link: '/chapter-1/1-3'
+    n: '03',
+    title: '可逆性、基与坐标系',
+    en: 'Invertibility, bases, and coordinate systems',
+    count: '5 节',
+    link: '/chapter-3/'
   },
   {
-    n: '1.4',
-    title: '主元及其影响',
-    en: 'Pivots and their influence on solution spaces',
-    link: '/chapter-1/1-4'
+    n: '04',
+    title: '特征值与特征向量',
+    en: 'Eigenvalues and eigenvectors',
+    count: '5 节',
+    link: '/chapter-4/'
   }
 ]
 </script>
@@ -33,24 +37,25 @@ const sections = [
   <section class="ula-chapters">
     <div class="ula-chapters__inner">
       <header class="ula-chapters__head">
-        <p class="ula-eyebrow">第一章</p>
-        <h2>方程组</h2>
+        <p class="ula-eyebrow">全书目录</p>
+        <h2>四章</h2>
         <p class="ula-lede">
-          原书第一章 Systems of equations，共四节。
+          原书第 1–4 章，共 20 节。
         </p>
       </header>
 
       <div class="ula-cards">
         <a
-          v-for="s in sections"
-          :key="s.n"
+          v-for="c in chapters"
+          :key="c.n"
           class="ula-card"
-          :href="withBase(s.link)"
+          :href="withBase(c.link)"
         >
-          <span class="ula-card__n">{{ s.n }}</span>
-          <h3>{{ s.title }}</h3>
-          <p class="ula-card__en">{{ s.en }}</p>
-          <span class="ula-card__go">阅读本节 <span aria-hidden="true">→</span></span>
+          <span class="ula-card__n">第 {{ c.n }} 章</span>
+          <h3>{{ c.title }}</h3>
+          <p class="ula-card__en">{{ c.en }}</p>
+          <p class="ula-card__meta">{{ c.count }}</p>
+          <span class="ula-card__go">进入本章 <span aria-hidden="true">→</span></span>
         </a>
       </div>
 
@@ -141,27 +146,28 @@ const sections = [
 }
 .ula-card h3 {
   font-size: 19px;
-  line-height: 1.4;
+  line-height: 1.45;
   margin: 8px 0 2px;
   letter-spacing: -0.01em;
+  min-height: 2.9em;
 }
 .ula-card__en {
   font-size: 12.5px;
   color: var(--vp-c-text-3);
   margin: 0 0 12px;
   letter-spacing: 0.01em;
+  line-height: 1.5;
 }
-.ula-card__blurb {
-  font-size: 14px;
-  line-height: 1.75;
-  color: var(--vp-c-text-2);
-  margin: 0 0 18px;
-  flex: 1;
+.ula-card__meta {
+  font-size: 12.5px;
+  color: var(--vp-c-text-3);
+  margin: 0 0 16px;
 }
 .ula-card__go {
   font-size: 13.5px;
   font-weight: 600;
   color: var(--vp-c-brand-1);
+  margin-top: auto;
 }
 .ula-chapters__note {
   margin: 28px 0 0;

@@ -3,7 +3,7 @@ layout: home
 
 hero:
   name: 理解线性代数
-  text: 从方程组到向量空间
+  text: 从方程组到特征值
   tagline: David Austin 的开放线性代数教材。中文逐段直译，公式取自原书 PreTeXt 源文件。
   image:
     src: /hero.svg
